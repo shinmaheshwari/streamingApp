@@ -97,17 +97,6 @@ Start all backend services
 Start the frontend
 
 
-3️⃣ Access the application
-
-
-
-
-
-
-
-
-ServiceURLFrontendhttp://localhost:3000Auth Healthhttp://localhost:3001/healthStreaming Healthhttp://localhost:3002/healthAdmin Healthhttp://localhost:3003/healthChat Healthhttp://localhost:3004/health
-
 🔐 Environment Variables
 Each service uses environment variables defined via Docker Compose.
 Common variables:
