@@ -1,0 +1,19 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Docker
+*.log
+
+# OS
+.DS_Store
+
+# Build output
+build/
+dist/

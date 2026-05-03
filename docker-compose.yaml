@@ -1,0 +1,72 @@
+version: "3.9"
+
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongo_data:/data/db
+
+  auth:
+    build: ./backend/authService
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - MONGO_URI=mongodb://mongo:27017/streamingapp
+      - JWT_SECRET=supersecret
+    depends_on:
+      - mongo
+
+  streaming:
+    build: ./backend/streamingService
+    ports:
+      - "3002:3002"
+    environment:
+      - PORT=3002
+      - MONGO_URI=mongodb://mongo:27017/streamingapp
+      - JWT_SECRET=supersecret
+    depends_on:
+      - mongo
+
+  admin:
+    build: ./backend/adminService
+    ports:
+      - "3003:3003"
+    environment:
+      - PORT=3003
+      - MONGO_URI=mongodb://mongo:27017/streamingapp
+      - JWT_SECRET=supersecret
+    depends_on:
+      - mongo
+
+  chat:
+    build: ./backend/chatService
+    ports:
+      - "3004:3004"
+    environment:
+      - PORT=3004
+      - MONGO_URI=mongodb://mongo:27017/streamingapp
+      - JWT_SECRET=supersecret
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_AUTH_API=http://localhost:3001
+      - REACT_APP_STREAMING_API=http://localhost:3002
+      - REACT_APP_ADMIN_API=http://localhost:3003
+      - REACT_APP_CHAT_API=http://localhost:3004
+    depends_on:
+      - auth
+      - streaming
+      - admin
+      - chat
+
+volumes:
+  mongo_data:
